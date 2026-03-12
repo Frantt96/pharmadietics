@@ -806,6 +806,82 @@
     50% { left: 0; }
     100% { left: 100%; }
   }
+
+  /* ─── RESPONSIVE MOBILE ─── */
+  @media (max-width: 768px) {
+
+    /* NAV */
+    nav { padding: 16px 20px; }
+    nav.scrolled { padding: 12px 20px; }
+    .nav-links { display: none; }
+
+    /* HERO */
+    #hero { padding: 100px 20px 60px; min-height: auto; }
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    h1 { font-size: 48px; }
+    .hero-sub { font-size: 15px; max-width: 100%; }
+    .hero-card { padding: 28px 20px; }
+    .hero-actions { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .scroll-line { display: none; }
+
+    /* UVP */
+    .uvp-inner { grid-template-columns: 1fr; padding: 0 20px; }
+    .uvp-stat { padding: 28px 20px; }
+
+    /* SECTION INNER */
+    .section-inner { padding: 0 20px; }
+
+    /* ABOUT */
+    #sobre-mi { padding: 80px 0; }
+    .about-grid { grid-template-columns: 1fr; gap: 48px; }
+    .about-quote { padding: 28px 0 28px 24px; }
+    .about-quote blockquote { font-size: 22px; }
+
+    /* SERVICES */
+    #servicios { padding: 80px 0; }
+    .services-grid { grid-template-columns: 1fr; }
+    .service-card { padding: 36px 24px; }
+    .service-cta { opacity: 1; transform: none; }
+
+    /* PARA QUIÉN */
+    #para-quien { padding: 80px 0; }
+    .audience-grid { grid-template-columns: 1fr; gap: 16px; margin-top: 40px; }
+    .audience-card { padding: 28px 24px; }
+
+    /* METODOLOGÍA */
+    #metodologia { padding: 80px 0; }
+    .method-steps { grid-template-columns: 1fr; }
+    .method-step { padding: 36px 24px; }
+    .step-connector { display: none; }
+
+    /* CONTACTO */
+    #contacto { padding: 80px 0; }
+    .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+    .contact-form { padding: 28px 20px; }
+    .form-row { grid-template-columns: 1fr; }
+
+    /* FOOTER */
+    .footer-inner { flex-direction: column; gap: 20px; text-align: center; padding: 0 20px; }
+    .footer-links { flex-wrap: wrap; justify-content: center; gap: 16px; }
+
+    /* GENERAL */
+    h2 { font-size: 36px; }
+    #uvp { padding: 60px 0; }
+  }
+
+  /* Tablet */
+  @media (max-width: 1024px) and (min-width: 769px) {
+    nav { padding: 20px 30px; }
+    .section-inner { padding: 0 30px; }
+    .hero-grid { gap: 40px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .audience-grid { grid-template-columns: repeat(2, 1fr); }
+    .method-steps { grid-template-columns: repeat(2, 1fr); }
+    .about-grid { gap: 60px; }
+    .contact-grid { gap: 60px; }
+    .uvp-inner { padding: 0 30px; }
+    .footer-inner { padding: 0 30px; }
+  }
 </style>
 </head>
 <body>
@@ -908,7 +984,7 @@
         <div class="section-label"><span>Sobre mí</span></div>
         <h2>Donde la ciencia<br>se convierte en <em>producto</em></h2>
         <p>
-          Soy farmacéutico con formación en dietética, un máster en Departamentos Científicos de la Industria Farmacéutica y otro en Bioestadística y Bioinformática. Trabajo actualmente en regulatory affairs en un laboratorio farmacéutico y en una farmacia clínica.
+          Soy farmacéutico con formación en dietética, un máster en Regulatory Affairs y otro en Bioestadística y Bioinformática. Trabajo actualmente en regulatory affairs en un laboratorio farmacéutico y, algunos fines de semana, en farmacia clínica.
         </p>
         <p>
           A lo largo de mi carrera he identificado una brecha sistemática en el mercado: <strong>excelentes ideas de productos nutricionales y terapéuticos que no llegan al mercado por falta de acompañamiento experto</strong> en la intersección de ciencia, regulación y datos.
@@ -927,7 +1003,7 @@
       </div>
       <div class="reveal" style="transition-delay:0.2s">
         <div class="about-quote">
-          <blockquote>"Mi ventaja no es saber más de una sola cosa, sino hablar el idioma del clínico, del regulador y del estadístico al mismo tiempo."</blockquote>
+          <blockquote>"Mi ventaja no es saber más de una sola cosa, sino ser el único que habla el idioma del clínico, el regulador y el estadístico al mismo tiempo."</blockquote>
           <cite>Fundador, PharmaDietics</cite>
         </div>
         <div class="timeline">
@@ -941,7 +1017,7 @@
           <div class="tl-item">
             <div class="tl-dot">📋</div>
             <div class="tl-content">
-              <h4>Máster en Departamentos Cientificos de la Industria Farmaceutica</h4>
+              <h4>Máster en Regulatory Affairs</h4>
               <p>Especialización en registro de medicamentos, nutracéuticos y alimentos funcionales</p>
             </div>
           </div>
@@ -1112,7 +1188,7 @@
           <div class="contact-detail-icon">📧</div>
           <div class="contact-detail-text">
             <strong>Email</strong>
-            info@pharmadietics.com
+            <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f79e999198b7879f96859a96939e92839e9484d994989a">[email&#160;protected]</a>
           </div>
         </div>
         <div class="contact-detail">
@@ -1183,7 +1259,7 @@
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ─── MOLECULAR CANVAS ───
 const canvas = document.getElementById('molCanvas');
 const ctx = canvas.getContext('2d');
@@ -1259,14 +1335,3 @@ window.addEventListener('scroll', () => {
 // ─── REVEAL ON SCROLL ───
 const reveals = document.querySelectorAll('.reveal');
 const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-    }
-  });
-}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
-
-reveals.forEach(r => observer.observe(r));
-</script>
-</body>
-</html>
