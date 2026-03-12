@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PharmaDietics — Consultoría Científica Premium en Salud</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1210;
+    --bg2: #111a17;
+    --bg3: #162018;
+    --jade: #4a9b7f;
+    --jade-bright: #5cbf98;
+    --jade-dim: #2d5f4e;
+    --jade-glow: rgba(74,155,127,0.12);
+    --cream: #f0ebe0;
+    --cream-dim: #b8b2a4;
+    --white: #ffffff;
+    --line: rgba(74,155,127,0.2);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ─── MOLECULAR BACKGROUND ─── */
+  .mol-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.18;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 24px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid transparent;
+    transition: all 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(13,18,16,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom-color: var(--line);
+    padding: 16px 60px;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--cream);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--jade-bright); }
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--cream-dim);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--jade-bright); }
+  .nav-cta {
+    background: transparent;
+    border: 1px solid var(--jade);
+    color: var(--jade-bright) !important;
+    padding: 8px 22px;
+    border-radius: 2px;
+    transition: all 0.3s !important;
+  }
+  .nav-cta:hover {
+    background: var(--jade) !important;
+    color: var(--bg) !important;
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 60px;
+    overflow: hidden;
+    z-index: 1;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.3s forwards;
+  }
+  .hero-tag-line {
+    width: 32px; height: 1px;
+    background: var(--jade);
+  }
+  .hero-tag-text {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--jade);
+  }
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 5vw, 78px);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--cream);
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.5s forwards;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--jade-bright);
+  }
+  .hero-sub {
+    margin-top: 28px;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--cream-dim);
+    max-width: 440px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.7s forwards;
+  }
+  .hero-actions {
+    margin-top: 44px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.9s forwards;
+  }
+  .btn-primary {
+    background: var(--jade);
+    color: var(--bg);
+    padding: 14px 36px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s;
+    border-radius: 2px;
+  }
+  .btn-primary:hover { background: var(--jade-bright); transform: translateY(-1px); }
+  .btn-ghost {
+    color: var(--cream-dim);
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s;
+  }
+  .btn-ghost:hover { color: var(--jade-bright); }
+  .btn-ghost::after { content: '→'; transition: transform 0.3s; }
+  .btn-ghost:hover::after { transform: translateX(4px); }
+
+  /* Hero right — credentials card */
+  .hero-card {
+    background: var(--bg2);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 44px;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.1s forwards;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--jade), transparent);
+  }
+  .cred-title {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--jade);
+    margin-bottom: 28px;
+  }
+  .cred-item {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    align-items: flex-start;
+  }
+  .cred-item:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .cred-icon {
+    width: 38px; height: 38px;
+    background: var(--jade-glow);
+    border: 1px solid var(--jade-dim);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 16px;
+  }
+  .cred-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--cream);
+    line-height: 1.3;
+  }
+  .cred-sub {
+    font-size: 12px;
+    color: var(--cream-dim);
+    margin-top: 3px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ─── SECCIÓN GENÉRICA ─── */
+  section {
+    position: relative;
+    z-index: 1;
+  }
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 60px;
+  }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .section-label span {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--jade);
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 1px;
+    background: var(--jade-dim);
+  }
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4vw, 58px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--cream);
+    margin-bottom: 20px;
+  }
+  h2 em { font-style: italic; color: var(--jade-bright); }
+
+  /* ─── UVP STRIP ─── */
+  #uvp {
+    padding: 80px 0;
+    background: var(--bg3);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .uvp-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+  }
+  .uvp-stat {
+    background: var(--bg3);
+    padding: 40px;
+    text-align: center;
+  }
+  .uvp-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 56px;
+    font-weight: 300;
+    color: var(--jade-bright);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .uvp-label {
+    font-size: 13px;
+    color: var(--cream-dim);
+    letter-spacing: 0.06em;
+    line-height: 1.5;
+  }
+
+  /* ─── ABOUT ─── */
+  #sobre-mi {
+    padding: 120px 0;
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: start;
+  }
+  .about-text p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--cream-dim);
+    margin-bottom: 20px;
+  }
+  .about-text p strong {
+    color: var(--cream);
+    font-weight: 500;
+  }
+  .about-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 32px;
+  }
+  .badge {
+    border: 1px solid var(--jade-dim);
+    color: var(--jade);
+    padding: 6px 14px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    border-radius: 2px;
+    background: var(--jade-glow);
+  }
+  .about-quote {
+    border-left: 2px solid var(--jade);
+    padding: 40px 0 40px 40px;
+    margin-top: 0;
+  }
+  .about-quote blockquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  .about-quote cite {
+    font-size: 13px;
+    color: var(--jade);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-style: normal;
+  }
+  .timeline {
+    margin-top: 40px;
+  }
+  .tl-item {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: 15px; top: 32px;
+    width: 1px; height: calc(100% + 10px);
+    background: var(--line);
+  }
+  .tl-item:last-child::before { display: none; }
+  .tl-dot {
+    width: 32px; height: 32px;
+    border: 1px solid var(--jade-dim);
+    border-radius: 50%;
+    background: var(--jade-glow);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: var(--jade);
+  }
+  .tl-content h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--cream);
+    margin-bottom: 4px;
+  }
+  .tl-content p {
+    font-size: 13px;
+    color: var(--cream-dim);
+    line-height: 1.6;
+    margin: 0 !important;
+  }
+
+  /* ─── SERVICIOS ─── */
+  #servicios {
+    padding: 120px 0;
+    background: var(--bg2);
+    border-top: 1px solid var(--line);
+  }
+  .services-intro {
+    max-width: 600px;
+    margin-bottom: 80px;
+  }
+  .services-intro p {
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--cream-dim);
+    margin-top: 20px;
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+  }
+  .service-card {
+    background: var(--bg2);
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+    cursor: default;
+  }
+  .service-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--jade);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .service-card:hover { background: var(--bg3); }
+  .service-card:hover::after { transform: scaleX(1); }
+  .service-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 64px;
+    font-weight: 300;
+    color: rgba(74,155,127,0.12);
+    line-height: 1;
+    margin-bottom: 8px;
+    transition: color 0.3s;
+  }
+  .service-card:hover .service-num { color: rgba(74,155,127,0.25); }
+  .service-icon {
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+  .service-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+  .service-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--cream-dim);
+    margin-bottom: 24px;
+  }
+  .service-list {
+    list-style: none;
+    padding: 0;
+  }
+  .service-list li {
+    font-size: 13px;
+    color: var(--cream-dim);
+    padding: 6px 0;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .service-list li::before {
+    content: '–';
+    color: var(--jade);
+    font-weight: 500;
+  }
+  .service-cta {
+    margin-top: 28px;
+    font-size: 13px;
+    color: var(--jade);
+    letter-spacing: 0.06em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: all 0.3s;
+  }
+  .service-card:hover .service-cta { opacity: 1; transform: none; }
+
+  /* ─── PARA QUIÉN ─── */
+  #para-quien {
+    padding: 120px 0;
+  }
+  .audience-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 60px;
+  }
+  .audience-card {
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 40px;
+    position: relative;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .audience-card:hover {
+    border-color: var(--jade-dim);
+    background: var(--jade-glow);
+  }
+  .audience-icon {
+    font-size: 32px;
+    margin-bottom: 20px;
+    display: block;
+  }
+  .audience-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+  .audience-desc {
+    font-size: 14px;
+    color: var(--cream-dim);
+    line-height: 1.7;
+  }
+
+  /* ─── METODOLOGÍA ─── */
+  #metodologia {
+    padding: 120px 0;
+    background: var(--bg3);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .method-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    margin-top: 60px;
+  }
+  .method-step {
+    background: var(--bg3);
+    padding: 48px 36px;
+    position: relative;
+  }
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    color: var(--jade);
+    letter-spacing: 0.12em;
+    margin-bottom: 20px;
+  }
+  .step-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+  .step-desc {
+    font-size: 13px;
+    color: var(--cream-dim);
+    line-height: 1.7;
+  }
+  .step-connector {
+    position: absolute;
+    top: 48px; right: -12px;
+    color: var(--jade-dim);
+    font-size: 20px;
+    z-index: 2;
+  }
+
+  /* ─── CONTACTO ─── */
+  #contacto {
+    padding: 120px 0;
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: start;
+  }
+  .contact-info h2 { margin-bottom: 24px; }
+  .contact-info p {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--cream-dim);
+    margin-bottom: 40px;
+  }
+  .contact-detail {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .contact-detail-icon {
+    width: 42px; height: 42px;
+    background: var(--jade-glow);
+    border: 1px solid var(--jade-dim);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+  .contact-detail-text {
+    font-size: 14px;
+    color: var(--cream-dim);
+  }
+  .contact-detail-text strong {
+    display: block;
+    color: var(--cream);
+    margin-bottom: 2px;
+  }
+
+  /* FORM */
+  .contact-form {
+    background: var(--bg2);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-form::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--jade), transparent);
+  }
+  .form-group {
+    margin-bottom: 24px;
+  }
+  .form-group label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--jade);
+    margin-bottom: 10px;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid rgba(74,155,127,0.2);
+    border-radius: 2px;
+    color: var(--cream);
+    padding: 14px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--jade);
+  }
+  .form-group select option { background: var(--bg2); }
+  .form-group textarea { resize: none; height: 120px; }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 48px 0 32px;
+    position: relative;
+    z-index: 1;
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: var(--cream);
+  }
+  .footer-logo span { color: var(--jade); }
+  .footer-copy {
+    font-size: 12px;
+    color: var(--cream-dim);
+    opacity: 0.5;
+    letter-spacing: 0.04em;
+  }
+  .footer-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+  .footer-links a {
+    font-size: 12px;
+    color: var(--cream-dim);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    transition: opacity 0.3s, color 0.3s;
+  }
+  .footer-links a:hover { opacity: 1; color: var(--jade); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ─── SCROLL INDICATOR ─── */
+  .scroll-line {
+    position: absolute;
+    bottom: 48px; left: 60px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.5s forwards;
+  }
+  .scroll-line span {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    opacity: 0.5;
+  }
+  .scroll-track {
+    width: 40px; height: 1px;
+    background: var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+  .scroll-thumb {
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: var(--jade);
+    animation: scrollThumb 2s ease-in-out infinite;
+  }
+  @keyframes scrollThumb {
+    0% { left: -100%; }
+    50% { left: 0; }
+    100% { left: 100%; }
+  }
+
+  /* ─── RESPONSIVE MOBILE ─── */
+  @media (max-width: 768px) {
+
+    /* NAV */
+    nav { padding: 16px 20px; }
+    nav.scrolled { padding: 12px 20px; }
+    .nav-links { display: none; }
+
+    /* HERO */
+    #hero { padding: 100px 20px 60px; min-height: auto; }
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    h1 { font-size: 48px; }
+    .hero-sub { font-size: 15px; max-width: 100%; }
+    .hero-card { padding: 28px 20px; }
+    .hero-actions { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .scroll-line { display: none; }
+
+    /* UVP */
+    .uvp-inner { grid-template-columns: 1fr; padding: 0 20px; }
+    .uvp-stat { padding: 28px 20px; }
+
+    /* SECTION INNER */
+    .section-inner { padding: 0 20px; }
+
+    /* ABOUT */
+    #sobre-mi { padding: 80px 0; }
+    .about-grid { grid-template-columns: 1fr; gap: 48px; }
+    .about-quote { padding: 28px 0 28px 24px; }
+    .about-quote blockquote { font-size: 22px; }
+
+    /* SERVICES */
+    #servicios { padding: 80px 0; }
+    .services-grid { grid-template-columns: 1fr; }
+    .service-card { padding: 36px 24px; }
+    .service-cta { opacity: 1; transform: none; }
+
+    /* PARA QUIÉN */
+    #para-quien { padding: 80px 0; }
+    .audience-grid { grid-template-columns: 1fr; gap: 16px; margin-top: 40px; }
+    .audience-card { padding: 28px 24px; }
+
+    /* METODOLOGÍA */
+    #metodologia { padding: 80px 0; }
+    .method-steps { grid-template-columns: 1fr; }
+    .method-step { padding: 36px 24px; }
+    .step-connector { display: none; }
+
+    /* CONTACTO */
+    #contacto { padding: 80px 0; }
+    .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+    .contact-form { padding: 28px 20px; }
+    .form-row { grid-template-columns: 1fr; }
+
+    /* FOOTER */
+    .footer-inner { flex-direction: column; gap: 20px; text-align: center; padding: 0 20px; }
+    .footer-links { flex-wrap: wrap; justify-content: center; gap: 16px; }
+
+    /* GENERAL */
+    h2 { font-size: 36px; }
+    #uvp { padding: 60px 0; }
+  }
+
+  /* Tablet */
+  @media (max-width: 1024px) and (min-width: 769px) {
+    nav { padding: 20px 30px; }
+    .section-inner { padding: 0 30px; }
+    .hero-grid { gap: 40px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .audience-grid { grid-template-columns: repeat(2, 1fr); }
+    .method-steps { grid-template-columns: repeat(2, 1fr); }
+    .about-grid { gap: 60px; }
+    .contact-grid { gap: 60px; }
+    .uvp-inner { padding: 0 30px; }
+    .footer-inner { padding: 0 30px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Molecular SVG Background -->
+<canvas class="mol-canvas" id="molCanvas"></canvas>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">Pharma<span>Dietics</span></a>
+  <ul class="nav-links">
+    <li><a href="#sobre-mi">Sobre mí</a></li>
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#para-quien">Para quién</a></li>
+    <li><a href="#metodologia">Metodología</a></li>
+    <li><a href="#contacto" class="nav-cta">Contactar</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid">
+    <div class="hero-left">
+      <div class="hero-tag">
+        <div class="hero-tag-line"></div>
+        <span class="hero-tag-text">Consultoría Científica Premium</span>
+      </div>
+      <h1>De la evidencia<br>al <em>mercado</em><br>en salud</h1>
+      <p class="hero-sub">
+        Registro regulatorio, diseño de estudios clínicos y formación científica para startups foodtech, laboratorios y profesionales sanitarios. El puente entre la ciencia y el mercado.
+      </p>
+      <div class="hero-actions">
+        <a href="#servicios" class="btn-primary">Ver servicios</a>
+        <a href="#contacto" class="btn-ghost">Hablar con nosotros</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-card">
+        <div class="cred-title">Perfil del consultor</div>
+        <div class="cred-item">
+          <div class="cred-icon">⚗️</div>
+          <div>
+            <div class="cred-label">Farmacéutico & Dietético</div>
+            <div class="cred-sub">Grado en Farmacia · Grado en Dietética</div>
+          </div>
+        </div>
+        <div class="cred-item">
+          <div class="cred-icon">📋</div>
+          <div>
+            <div class="cred-label">Regulatory Affairs</div>
+            <div class="cred-sub">Máster especializado · EFSA / EMA / AEMPS</div>
+          </div>
+        </div>
+        <div class="cred-item">
+          <div class="cred-icon">📊</div>
+          <div>
+            <div class="cred-label">Bioestadística & Bioinformática</div>
+            <div class="cred-sub">Máster · Diseño de estudios clínicos · SAP</div>
+          </div>
+        </div>
+        <div class="cred-item">
+          <div class="cred-icon">🏥</div>
+          <div>
+            <div class="cred-label">Experiencia dual</div>
+            <div class="cred-sub">Laboratorio farmacéutico · Farmacia clínica</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-line">
+    <span>Scroll</span>
+    <div class="scroll-track"><div class="scroll-thumb"></div></div>
+  </div>
+</section>
+
+<!-- UVP STRIP -->
+<div id="uvp">
+  <div class="uvp-inner">
+    <div class="uvp-stat reveal">
+      <div class="uvp-num">4</div>
+      <div class="uvp-label">disciplinas integradas<br>en un solo consultor</div>
+    </div>
+    <div class="uvp-stat reveal" style="transition-delay:0.15s">
+      <div class="uvp-num">360°</div>
+      <div class="uvp-label">cobertura: ciencia,<br>regulación y datos</div>
+    </div>
+    <div class="uvp-stat reveal" style="transition-delay:0.3s">
+      <div class="uvp-num">B2B</div>
+      <div class="uvp-label">startups · laboratorios<br>· clínicas · instituciones</div>
+    </div>
+  </div>
+</div>
+
+<!-- SOBRE MÍ -->
+<section id="sobre-mi">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <div class="section-label"><span>Sobre mí</span></div>
+        <h2>Donde la ciencia<br>se convierte en <em>producto</em></h2>
+        <p>
+          Soy farmacéutico con formación en dietética, un máster en Regulatory Affairs y otro en Bioestadística y Bioinformática. Trabajo actualmente en regulatory affairs en un laboratorio farmacéutico y, algunos fines de semana, en farmacia clínica.
+        </p>
+        <p>
+          A lo largo de mi carrera he identificado una brecha sistemática en el mercado: <strong>excelentes ideas de productos nutricionales y terapéuticos que no llegan al mercado por falta de acompañamiento experto</strong> en la intersección de ciencia, regulación y datos.
+        </p>
+        <p>
+          PharmaDietics nace para cerrar esa brecha. Ofrezco consultoría de alto nivel que cubre el ciclo completo: desde la evidencia científica hasta el registro y la formación de los profesionales que prescribirán el producto.
+        </p>
+        <div class="about-badges">
+          <span class="badge">Farmacia Clínica</span>
+          <span class="badge">Dietética</span>
+          <span class="badge">Regulatory Affairs</span>
+          <span class="badge">Bioestadística</span>
+          <span class="badge">EFSA · EMA · AEMPS</span>
+          <span class="badge">Diseño de estudios</span>
+        </div>
+      </div>
+      <div class="reveal" style="transition-delay:0.2s">
+        <div class="about-quote">
+          <blockquote>"Mi ventaja no es saber más de una sola cosa, sino ser el único que habla el idioma del clínico, el regulador y el estadístico al mismo tiempo."</blockquote>
+          <cite>Fundador, PharmaDietics</cite>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot">🎓</div>
+            <div class="tl-content">
+              <h4>Grado en Farmacia + Dietética</h4>
+              <p>Formación científica dual en farmacología y nutrición clínica</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot">📋</div>
+            <div class="tl-content">
+              <h4>Máster en Regulatory Affairs</h4>
+              <p>Especialización en registro de medicamentos, nutracéuticos y alimentos funcionales</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot">📊</div>
+            <div class="tl-content">
+              <h4>Máster en Bioestadística y Bioinformática</h4>
+              <p>Diseño de estudios, análisis estadístico, gestión y visualización de datos clínicos</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot">🏢</div>
+            <div class="tl-content">
+              <h4>Laboratorio farmacéutico + Farmacia</h4>
+              <p>Experiencia aplicada en entornos industriales y de atención directa al paciente</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+  <div class="section-inner">
+    <div class="services-intro reveal">
+      <div class="section-label"><span>Servicios</span></div>
+      <h2>Tres líneas<br>de <em>expertise</em></h2>
+      <p>Cada línea de servicio es independiente pero complementaria. Puedes contratar una o las tres según la fase en que se encuentre tu proyecto.</p>
+    </div>
+    <div class="services-grid">
+
+      <div class="service-card reveal">
+        <div class="service-num">01</div>
+        <div class="service-icon">📋</div>
+        <div class="service-title">Consultoría Regulatoria Nutricional</div>
+        <div class="service-desc">Navega el marco regulatorio europeo con seguridad. Desde la auditoría inicial hasta el registro completo de tu producto ante AEMPS y EFSA.</div>
+        <ul class="service-list">
+          <li>Auditoría regulatoria express de portfolio</li>
+          <li>Registro de nutracéuticos y suplementos</li>
+          <li>Revisión y defensa de claims nutricionales</li>
+          <li>Consultor regulatorio externalizado (retainer)</li>
+        </ul>
+        <div class="service-cta">Más información →</div>
+      </div>
+
+      <div class="service-card reveal" style="transition-delay:0.15s">
+        <div class="service-num">02</div>
+        <div class="service-icon">🔬</div>
+        <div class="service-title">Diseño de Estudios Clínico-Nutricionales</div>
+        <div class="service-desc">Diseño y análisis de estudios con rigor científico y endpoints nutricionales sólidos. Resultados que resisten el escrutinio regulatorio y editorial.</div>
+        <ul class="service-list">
+          <li>Diseño de protocolo clínico</li>
+          <li>Plan de análisis estadístico (SAP)</li>
+          <li>Análisis de datos e informe clínico</li>
+          <li>Apoyo en publicación científica</li>
+        </ul>
+        <div class="service-cta">Más información →</div>
+      </div>
+
+      <div class="service-card reveal" style="transition-delay:0.3s">
+        <div class="service-num">03</div>
+        <div class="service-icon">🎓</div>
+        <div class="service-title">Formación a Profesionales Sanitarios</div>
+        <div class="service-desc">Formación basada en evidencia para médicos, farmacéuticos y dietistas. Actualización real en nutrición clínica y regulación de suplementos.</div>
+        <ul class="service-list">
+          <li>Talleres y webinars especializados</li>
+          <li>Cursos online con certificado</li>
+          <li>Programas institucionales anuales</li>
+          <li>Mentoría individual para profesionales</li>
+        </ul>
+        <div class="service-cta">Más información →</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PARA QUIÉN -->
+<section id="para-quien">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-label"><span>Para quién</span></div>
+      <h2>¿Quién necesita<br><em>PharmaDietics</em>?</h2>
+    </div>
+    <div class="audience-grid">
+      <div class="audience-card reveal">
+        <span class="audience-icon">🚀</span>
+        <div class="audience-title">Startups Foodtech & Healthtech</div>
+        <div class="audience-desc">Tienes un producto innovador pero no sabes cómo registrarlo ni qué evidencia necesitas para hacer claims. Te acompañamos desde el concepto hasta la aprobación.</div>
+      </div>
+      <div class="audience-card reveal" style="transition-delay:0.15s">
+        <span class="audience-icon">🏭</span>
+        <div class="audience-title">Laboratorios y fabricantes</div>
+        <div class="audience-desc">Necesitas optimizar tu proceso regulatorio, diseñar estudios que apoyen tu portfolio o auditar tus claims actuales ante nuevas exigencias de EFSA.</div>
+      </div>
+      <div class="audience-card reveal" style="transition-delay:0.3s">
+        <span class="audience-icon">🏥</span>
+        <div class="audience-title">Clínicas y grupos de investigación</div>
+        <div class="audience-desc">Quieres publicar resultados de tu práctica clínica nutricional con rigor estadístico o necesitas un protocolo de estudio robusto para conseguir financiación.</div>
+      </div>
+      <div class="audience-card reveal" style="transition-delay:0.1s">
+        <span class="audience-icon">👩‍⚕️</span>
+        <div class="audience-title">Médicos y farmacéuticos</div>
+        <div class="audience-desc">Buscas formación de alto nivel en nutrición clínica basada en evidencia, o mentoría para especializarte en el campo de los nutracéuticos y la farmacoterapia nutricional.</div>
+      </div>
+      <div class="audience-card reveal" style="transition-delay:0.25s">
+        <span class="audience-icon">🎓</span>
+        <div class="audience-title">Colegios y asociaciones</div>
+        <div class="audience-desc">Necesitas proveedores de formación continuada acreditada en nutrición, farmacología y regulación para tus colegiados o miembros. Diseñamos programas a medida.</div>
+      </div>
+      <div class="audience-card reveal" style="transition-delay:0.4s">
+        <span class="audience-icon">💡</span>
+        <div class="audience-title">Inversores y aceleradoras</div>
+        <div class="audience-desc">Tus portfolios de healthtech y foodtech necesitan due diligence regulatoria o un experto que evalúe la viabilidad técnico-científica de proyectos antes de la inversión.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METODOLOGÍA -->
+<section id="metodologia">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-label"><span>Metodología</span></div>
+      <h2>El proceso<br><em>Evidence-to-Market</em></h2>
+    </div>
+    <div class="method-steps">
+      <div class="method-step reveal">
+        <div class="step-num">01 — Diagnóstico</div>
+        <div class="step-title">Análisis & Estrategia</div>
+        <div class="step-desc">Evaluamos tu situación actual: producto, evidencia disponible, gaps regulatorios y objetivos de negocio. Definimos la hoja de ruta óptima.</div>
+        <div class="step-connector">→</div>
+      </div>
+      <div class="method-step reveal" style="transition-delay:0.15s">
+        <div class="step-num">02 — Diseño</div>
+        <div class="step-title">Protocolo & Evidencia</div>
+        <div class="step-desc">Si es necesario, diseñamos el estudio clínico o la revisión bibliográfica que soportará los claims y el expediente regulatorio.</div>
+        <div class="step-connector">→</div>
+      </div>
+      <div class="method-step reveal" style="transition-delay:0.3s">
+        <div class="step-num">03 — Ejecución</div>
+        <div class="step-title">Registro & Aprobación</div>
+        <div class="step-desc">Elaboramos la documentación técnica y acompañamos el proceso ante AEMPS, EFSA o EMA hasta la aprobación o notificación.</div>
+        <div class="step-connector">→</div>
+      </div>
+      <div class="method-step reveal" style="transition-delay:0.45s">
+        <div class="step-num">04 — Transferencia</div>
+        <div class="step-title">Formación & Adopción</div>
+        <div class="step-desc">Formamos a los profesionales sanitarios que prescribirán o recomendarán el producto, cerrando el ciclo completo.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <div class="section-label"><span>Contacto</span></div>
+        <h2>Hablemos de<br>tu <em>proyecto</em></h2>
+        <p>
+          Cada proyecto es diferente. La mejor forma de empezar es una conversación de 30 minutos sin compromiso para evaluar si PharmaDietics puede añadir valor real en tu caso.
+        </p>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📧</div>
+          <div class="contact-detail-text">
+            <strong>Email</strong>
+            <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f79e999198b7879f96859a96939e92839e9484d994989a">[email&#160;protected]</a>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">💼</div>
+          <div class="contact-detail-text">
+            <strong>LinkedIn</strong>
+            /in/pharmadietics
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📍</div>
+          <div class="contact-detail-text">
+            <strong>Ubicación</strong>
+            España · Proyectos remotos y presenciales
+          </div>
+        </div>
+        <div style="margin-top:40px;padding:28px;border:1px solid var(--line);border-radius:4px;background:var(--jade-glow)">
+          <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--jade);margin-bottom:10px">Tiempo de respuesta</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--cream)">Menos de 48 horas</div>
+          <div style="font-size:13px;color:var(--cream-dim);margin-top:6px">para consultas de nuevos proyectos</div>
+        </div>
+      </div>
+      <div class="contact-form reveal" style="transition-delay:0.2s">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" placeholder="Tu nombre">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="tu@email.com">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Organización</label>
+          <input type="text" placeholder="Empresa o institución">
+        </div>
+        <div class="form-group">
+          <label>Servicio de interés</label>
+          <select>
+            <option value="">Selecciona un servicio...</option>
+            <option>Consultoría Regulatoria Nutricional</option>
+            <option>Diseño de Estudios Clínicos</option>
+            <option>Formación a Profesionales Sanitarios</option>
+            <option>Varios servicios / No estoy seguro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Cuéntame tu proyecto</label>
+          <textarea placeholder="Describe brevemente el reto o proyecto en el que puedo ayudarte..."></textarea>
+        </div>
+        <button type="button" class="btn-primary" style="width:100%;justify-content:center;display:block;border-radius:2px">Enviar mensaje</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Pharma<span>Dietics</span></div>
+    <ul class="footer-links">
+      <li><a href="#">Política de privacidad</a></li>
+      <li><a href="#">Aviso legal</a></li>
+      <li><a href="#">LinkedIn</a></li>
+    </ul>
+    <div class="footer-copy">© 2025 PharmaDietics</div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ─── MOLECULAR CANVAS ───
+const canvas = document.getElementById('molCanvas');
+const ctx = canvas.getContext('2d');
+let nodes = [];
+const JADE = '#4a9b7f';
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+function createNodes() {
+  nodes = [];
+  const count = Math.floor((canvas.width * canvas.height) / 18000);
+  for (let i = 0; i < count; i++) {
+    nodes.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      r: Math.random() * 2.5 + 1
+    });
+  }
+}
+
+function drawMolecular() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const maxDist = 130;
+
+  nodes.forEach(n => {
+    n.x += n.vx;
+    n.y += n.vy;
+    if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
+    if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+  });
+
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dx = nodes[i].x - nodes[j].x;
+      const dy = nodes[i].y - nodes[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < maxDist) {
+        ctx.beginPath();
+        ctx.strokeStyle = JADE;
+        ctx.globalAlpha = (1 - dist / maxDist) * 0.35;
+        ctx.lineWidth = 0.5;
+        ctx.moveTo(nodes[i].x, nodes[i].y);
+        ctx.lineTo(nodes[j].x, nodes[j].y);
+        ctx.stroke();
+      }
+    }
+    ctx.beginPath();
+    ctx.arc(nodes[i].x, nodes[i].y, nodes[i].r, 0, Math.PI * 2);
+    ctx.fillStyle = JADE;
+    ctx.globalAlpha = 0.5;
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+  requestAnimationFrame(drawMolecular);
+}
+
+resize();
+createNodes();
+drawMolecular();
+window.addEventListener('resize', () => { resize(); createNodes(); });
+
+// ─── NAV SCROLL ───
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ─── REVEAL ON SCROLL ───
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+reveals.forEach(r => observer.observe(r));
+
+</script>
+</body>
+</html>
